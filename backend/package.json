@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --watch src/server.ts"
+    "dev": "nodemon --exec tsx src/server.ts"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.4.2",
@@ -17,6 +17,7 @@
     "express": "^5.2.1",
     "helmet": "^8.1.0",
     "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
     "tsx": "^4.21.0"
   },
   "devDependencies": {
