@@ -22,8 +22,8 @@ model Coche {
   numero_puertas   Int
   tipo_combustible String
   imagen           String
-  marcaId          Int
-  marca            Marca  @relation(fields: [marcaId], references: [id])
+  marcaId          Int?
+  marca            Marca? @relation(fields: [marcaId], references: [id])
 }
 
 model Marca {
