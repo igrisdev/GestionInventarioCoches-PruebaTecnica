@@ -2,3 +2,4 @@
 bun.lock
 .env
 .vscode
+/generated/prisma
