@@ -4,6 +4,7 @@ import { getByIdCar } from "../../application/car/geByIdCar.usecase";
 import type { ICar } from "../../core/entity/car.entity";
 import { updateCar } from "../../application/car/updateCar.usecase";
 import { deleteCar } from "../../application/car/deleteCar.usecase";
+import { createCar } from "../../application/car/createCar.usecase";
 
 // obtener todos los coches de la base de datos
 export const getAll = async (
@@ -57,6 +58,26 @@ export const getById = async (
   }
 };
 
+// crear un coche
+export const create = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data = req.body;
+
+    const car = await createCar({ data });
+
+    res.status(200).json({
+      success: true,
+      data: car,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // actualizar un coche por su id
 export const update = async (
   req: Request,
@@ -93,6 +114,7 @@ export const update = async (
   }
 };
 
+// eliminar un coche por su id
 export const deleteById = async (
   req: Request,
   res: Response,
