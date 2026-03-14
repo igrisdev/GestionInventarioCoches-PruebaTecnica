@@ -1,4 +1,5 @@
-import { prisma } from "../../infrastructure/database/prisma.client.ts";
+import type { ICar } from "../../core/entity/car.entity.ts";
+import { CarRepository } from "../../infrastructure/repository/car.repository.ts";
 
 // main()
 //   .then(async () => {
@@ -10,25 +11,13 @@ import { prisma } from "../../infrastructure/database/prisma.client.ts";
 //     process.exit(1);
 //   });
 
-export const createCar = async () => {
-  try {
-    const car = await prisma.coche.create({
-      data: {
-        modelo: "Tesla Model 3",
-        año: 2023,
-        precio: 10000,
-        color: "rojo",
-        numero_puertas: 4,
-        tipo_combustible: "eléctrico",
-        imagen:
-          "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      },
-    });
+interface ICreateCar {
+  data: Omit<ICar, "id">;
+}
 
-    const findCar = await prisma.coche.findMany();
+export const createCar = async (data: ICreateCar) => {
+  const repository = CarRepository;
+  const car = await repository.create(data);
 
-    return "ok";
-  } catch (error) {
-    console.error("Error in createCar:", error);
-  }
+  return car;
 };
