@@ -44,7 +44,17 @@ export const CarRepository: ICarRepository = {
 
     return car;
   },
-  delete: function (id: number): Promise<any> {
-    throw new Error("Function not implemented.");
+  delete: async function (id: number): Promise<any> {
+    const car = await prisma.coche.delete({
+      where: { id: id },
+    });
+
+    if (!car) {
+      const error: any = new Error(`No se eliminó el coche con el id: ${id}`);
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return car;
   },
 };
