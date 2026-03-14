@@ -1,3 +1,4 @@
+import type { ICar } from "../../core/entity/car.entity";
 import type { ICarRepository } from "../../core/repository/car.repository.entity";
 import { prisma } from "../database/prisma.client";
 
@@ -27,10 +28,20 @@ export const CarRepository: ICarRepository = {
 
     return car;
   },
-  create: function (data: any): Promise<any> {
-    throw new Error("Function not implemented.");
+  create: async function ({ data }: { data: Omit<ICar, "id"> }): Promise<any> {
+    const car = await prisma.coche.create({
+      data: data as any,
+    });
+
+    if (!car) {
+      const error: any = new Error("No se creó el coche");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return car;
   },
-  update: async function (id: number, data: any): Promise<any> {
+  update: async function (id: number, data: Omit<ICar, "id">): Promise<any> {
     const car = await prisma.coche.update({
       where: { id: id },
       data: data,
