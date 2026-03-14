@@ -1,23 +1,12 @@
-import { prisma } from "../../infrastructure/database/prisma.client";
+import { CarRepository } from "../../infrastructure/repository/car.repository";
 
 interface IDeleteCar {
   id: number;
 }
 
 export const deleteCar = async ({ id }: IDeleteCar) => {
-  try {
-    const car = await prisma.coche.delete({
-      where: {
-        id: id,
-      },
-    });
+  const repository = CarRepository;
+  const car = await repository.delete(id);
 
-    if (!car) {
-      throw new Error("No se encontró el coche con el id: " + id);
-    }
-
-    return car;
-  } catch (error) {
-    throw new Error("Error al eliminar el coche con el id");
-  }
+  return car;
 };
