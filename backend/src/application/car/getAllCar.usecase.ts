@@ -1,15 +1,9 @@
-import { prisma } from "../../infrastructure/database/prisma.client";
+import { CarRepository } from "../../infrastructure/repository/car.repository";
 
+// intermediario entre el repositorio y el dominio para obtener todos los coches
 export const getAllCar = async () => {
-  try {
-    const cars = await prisma.coche.findMany();
+  const carRepository = CarRepository;
+  const cars = await carRepository.getAll();
 
-    if (!cars) {
-      throw new Error("No se encontraron coches");
-    }
-
-    return cars;
-  } catch (error) {
-    throw new Error("Error al obtener todos los coches");
-  }
+  return cars;
 };
