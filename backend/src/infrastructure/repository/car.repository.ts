@@ -30,8 +30,19 @@ export const CarRepository: ICarRepository = {
   create: function (data: any): Promise<any> {
     throw new Error("Function not implemented.");
   },
-  update: function (id: number, data: any): Promise<any> {
-    throw new Error("Function not implemented.");
+  update: async function (id: number, data: any): Promise<any> {
+    const car = await prisma.coche.update({
+      where: { id: id },
+      data: data,
+    });
+
+    if (!car) {
+      const error: any = new Error(`No se actualizo el coche con el id: ${id}`);
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return car;
   },
   delete: function (id: number): Promise<any> {
     throw new Error("Function not implemented.");

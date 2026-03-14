@@ -1,40 +1,15 @@
-import type { ICar } from "../../core/car.entity";
-import { prisma } from "../../infrastructure/database/prisma.client";
+import type { ICar } from "../../core/entity/car.entity";
+import { CarRepository } from "../../infrastructure/repository/car.repository";
 
-export const updateCar = async ({
-  id,
-  año,
-  color,
-  modelo,
-  numero_puertas,
-  precio,
-  tipo_combustible,
-  imagen,
-  marcaId,
-}: ICar) => {
-  try {
-    const car = await prisma.coche.update({
-      where: {
-        id: id,
-      },
-      data: {
-        año: año,
-        color: color,
-        modelo: modelo,
-        numero_puertas: numero_puertas,
-        precio: precio,
-        tipo_combustible: tipo_combustible,
-        imagen: imagen,
-        marcaId: marcaId,
-      },
-    });
+interface IUpdateCar {
+  id: number;
+  data: Omit<ICar, "id">;
+}
 
-    if (!car) {
-      throw new Error("No se actualizo el coche con el id: " + id);
-    }
+export const updateCar = async ({ id, data }: IUpdateCar) => {
+  const repository = CarRepository;
 
-    return car;
-  } catch (error) {
-    throw new Error("Error al actualizar el coche con el id");
-  }
+  const car = await repository.update(id, data);
+
+  return car;
 };
