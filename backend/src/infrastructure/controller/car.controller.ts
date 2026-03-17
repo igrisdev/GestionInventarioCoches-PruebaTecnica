@@ -1,7 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
+import type { ICar } from "../../core/entity/car.entity";
+
 import { getAllCar } from "../../application/car/getAllCar.usecase";
 import { getByIdCar } from "../../application/car/geByIdCar.usecase";
-import type { ICar } from "../../core/entity/car.entity";
 import { updateCar } from "../../application/car/updateCar.usecase";
 import { deleteCar } from "../../application/car/deleteCar.usecase";
 import { createCar } from "../../application/car/createCar.usecase";
