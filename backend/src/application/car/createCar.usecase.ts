@@ -1,5 +1,5 @@
 import type { ICar } from "../../core/entity/car.entity.ts";
-import { CarRepository } from "../../infrastructure/repository/car.repository.ts";
+import { CarRepository } from "../../infrastructure/repository/car.repository";
 
 // main()
 //   .then(async () => {

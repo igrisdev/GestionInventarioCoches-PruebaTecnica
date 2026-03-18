@@ -1,5 +1,5 @@
 import type { IBrand } from "../../core/entity/brand.entity.ts";
-import { BrandRepository } from "../../infrastructure/repository/brand.repository.ts";
+import { BrandRepository } from "../../infrastructure/repository/brand.repository";
 
 interface ICreateBrand {
   data: Omit<IBrand, "id">;
