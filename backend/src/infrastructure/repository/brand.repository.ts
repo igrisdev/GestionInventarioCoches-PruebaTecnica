@@ -13,12 +13,6 @@ export const BrandRepository: IBrandRepository = {
       },
     });
 
-    if (!brands) {
-      const error: any = new Error("No se encontraron marcas");
-      error.statusCode = 404;
-      throw error;
-    }
-
     return brands;
   },
   getById: async function (id: number): Promise<any> {
@@ -29,12 +23,6 @@ export const BrandRepository: IBrandRepository = {
       },
     });
 
-    if (!brand) {
-      const error: any = new Error(`No se encontró la marca con el id: ${id}`);
-      error.statusCode = 404;
-      throw error;
-    }
-
     return brand;
   },
   create: async function ({
@@ -42,64 +30,30 @@ export const BrandRepository: IBrandRepository = {
   }: {
     data: Omit<IBrand, "id">;
   }): Promise<any> {
-    try {
-      const brand = await prisma.marca.create({
-        data: data as any,
-        include: {
-          coches: true,
-        },
-      });
+    const brand = await prisma.marca.create({
+      data: data as any,
+      include: {
+        coches: true,
+      },
+    });
 
-      return brand;
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === "P2018") {
-          const customError: any = new Error(
-            "Uno o más coches que intentas conectar no existen en la base de datos.",
-          );
-          customError.statusCode = 404;
-          throw customError;
-        }
-      }
-
-      throw error;
-    }
+    return brand;
   },
   update: async function (id: number, data: Omit<IBrand, "id">): Promise<any> {
-    try {
-      const brand = await prisma.marca.update({
-        where: { id: id },
-        data: data as any,
-        include: {
-          coches: true,
-        },
-      });
+    const brand = await prisma.marca.update({
+      where: { id: id },
+      data: data as any,
+      include: {
+        coches: true,
+      },
+    });
 
-      return brand;
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === "P2025") {
-          const customError: any = new Error(
-            `No se encontró la marca con el id: ${id}`,
-          );
-          customError.statusCode = 404;
-          throw customError;
-        }
-      }
-
-      throw error;
-    }
+    return brand;
   },
   delete: async function (id: number): Promise<any> {
     const brand = await prisma.marca.delete({
       where: { id: id },
     });
-
-    if (!brand) {
-      const error: any = new Error(`No se eliminó la marca con el id: ${id}`);
-      error.statusCode = 404;
-      throw error;
-    }
 
     return brand;
   },
