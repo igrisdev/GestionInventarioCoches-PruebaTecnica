@@ -1,6 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import type { ICar } from "../../core/entity/car.entity";
 
+import { CarRepository } from "../repository/car.repository";
+
 import { getAllCar } from "../../application/car/getAllCar.usecase";
 import { getByIdCar } from "../../application/car/geByIdCar.usecase";
 import { updateCar } from "../../application/car/updateCar.usecase";
@@ -14,7 +16,7 @@ export const getAll = async (
   next: NextFunction,
 ) => {
   try {
-    const allCars = await getAllCar();
+    const allCars = await getAllCar(CarRepository);
 
     res.status(200).json({
       success: true,
@@ -48,7 +50,7 @@ export const getById = async (
       throw error;
     }
 
-    const car = await getByIdCar({ id: Number(id) });
+    const car = await getByIdCar(CarRepository, { id: Number(id) });
 
     res.status(200).json({
       success: true,
@@ -68,7 +70,7 @@ export const create = async (
   try {
     const data = req.body;
 
-    const car = await createCar({ data });
+    const car = await createCar(CarRepository, { data });
 
     res.status(200).json({
       success: true,
@@ -104,7 +106,7 @@ export const update = async (
 
     const { data } = req.body as { data: Omit<ICar, "id"> };
 
-    const car = await updateCar({ id: Number(id), data });
+    const car = await updateCar(CarRepository, { id: Number(id), data });
 
     res.status(200).json({
       success: true,
@@ -138,7 +140,7 @@ export const deleteById = async (
       throw error;
     }
 
-    const car = await deleteCar({ id: Number(id) });
+    const car = await deleteCar(CarRepository, { id: Number(id) });
 
     res.status(200).json({
       success: true,

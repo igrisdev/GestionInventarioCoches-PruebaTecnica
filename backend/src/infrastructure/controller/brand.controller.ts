@@ -1,6 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import type { IBrand } from "../../core/entity/brand.entity";
 
+import { BrandRepository } from "../repository/brand.repository";
+
 import { getAllBrand } from "../../application/brand/getAllBrand.usecase";
 import { getByIdBrand } from "../../application/brand/geByIdBrand.usecase";
 import { updateBrand } from "../../application/brand/updateBrand.usecase";
@@ -14,7 +16,7 @@ export const getAll = async (
   next: NextFunction,
 ) => {
   try {
-    const allCars = await getAllBrand();
+    const allCars = await getAllBrand(BrandRepository);
 
     res.status(200).json({
       success: true,
@@ -48,7 +50,7 @@ export const getById = async (
       throw error;
     }
 
-    const car = await getByIdBrand({ id: Number(id) });
+    const car = await getByIdBrand(BrandRepository, { id: Number(id) });
 
     res.status(200).json({
       success: true,
@@ -68,7 +70,7 @@ export const create = async (
   try {
     const data = req.body;
 
-    const car = await createBrand({ data });
+    const car = await createBrand(BrandRepository, { data });
 
     res.status(200).json({
       success: true,
@@ -104,7 +106,7 @@ export const update = async (
 
     const { data } = req.body as { data: Omit<IBrand, "id"> };
 
-    const car = await updateBrand({ id: Number(id), data });
+    const car = await updateBrand(BrandRepository, { id: Number(id), data });
 
     res.status(200).json({
       success: true,
@@ -138,7 +140,7 @@ export const deleteById = async (
       throw error;
     }
 
-    const car = await deleteBrand({ id: Number(id) });
+    const car = await deleteBrand(BrandRepository, { id: Number(id) });
 
     res.status(200).json({
       success: true,
