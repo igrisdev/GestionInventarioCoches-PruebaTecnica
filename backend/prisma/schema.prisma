@@ -13,6 +13,12 @@ datasource db {
   provider = "mysql"
 }
 
+model Usuario {
+  id          Int    @id @default(autoincrement())
+  correo      String @unique
+  contraseña String
+}
+
 model Coche {
   id               Int    @id @default(autoincrement())
   modelo           String
